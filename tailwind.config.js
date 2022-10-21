@@ -36,6 +36,10 @@ module.exports = {
           900: '#484049',
         },
       },
+      fontFamily: {
+        popins: ['Poppins', 'sans-serif'],
+        roboto: ['Roboto', 'sans-serif'],
+      },
     },
   },
   plugins: [],
