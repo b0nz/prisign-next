@@ -1,0 +1,39 @@
+.btn {
+  @apply rounded bg-inherit text-inherit cursor-pointer;
+  font-family: inherit;
+  font-weight: inherit;
+}
+
+.btn-md {
+  @apply py-3 px-6 text-base;
+}
+
+.btn-primary {
+  @apply bg-privgreen-500 text-white border border-transparent;
+}
+.btn-primary:hover {
+  @apply bg-privgreen-400;
+}
+.btn-primary:active {
+  @apply bg-privgreen-600;
+}
+
+.btn-outline {
+  @apply bg-transparent text-privgray-500 border border-privgray-500;
+}
+.btn-outline:hover {
+  @apply text-privgray-400 border-privgray-400;
+}
+.btn-outline:active {
+  @apply text-privgray-600 border-privgray-600;
+}
+
+.btn-transparent {
+  @apply bg-transparent text-privgray-500 border border-transparent;
+}
+.btn-transparent:hover {
+  @apply text-privgray-400;
+}
+.btn-transparent:active {
+  @apply text-privgray-600;
+}
