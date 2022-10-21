@@ -1,11 +1,23 @@
 import { render, screen } from '@testing-library/react'
-import Button from '../Button'
+import Button from '@/components/Button'
 
 describe('Button', () => {
   it('should render button correctly', async () => {
     render(<Button data-testid="btn">Button</Button>)
     await screen.findAllByText('Button')
     expect(screen.getByTestId('btn')).toHaveClass('btn btn-md btn-primary')
+  })
+
+  it('should render button correctly, with className=font-bold', async () => {
+    render(
+      <Button data-testid="btn" className="font-bold">
+        Button
+      </Button>,
+    )
+    await screen.findAllByText('Button')
+    expect(screen.getByTestId('btn')).toHaveClass(
+      'btn btn-md btn-primary font-bold',
+    )
   })
 
   it('should render button correctly, with block=true', async () => {
