@@ -9,7 +9,6 @@ const Button: FC<ButtonProps> = ({
   block,
   className,
   loading,
-  htmlType = 'button',
   ...props
 }) => {
   const classes = [
@@ -27,7 +26,7 @@ const Button: FC<ButtonProps> = ({
   }
 
   return (
-    <button type={htmlType} className={classes.join(' ')} {...props}>
+    <button className={classes.join(' ')} {...props}>
       {loading ? (
         <span className="flex justify-center align-middle">
           <CgSpinner data-testid="loading" className="animate-spin" />
