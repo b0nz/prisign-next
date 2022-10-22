@@ -4,7 +4,11 @@ import { FaSortDown } from 'react-icons/fa'
 import SelectClasses from './Select.module.css'
 
 export const Option: FC<OptionProps> = ({ children, ...props }) => {
-  return <option data-testid="select-option" {...props}>{children}</option>
+  return (
+    <option data-testid="select-option" {...props}>
+      {children}
+    </option>
+  )
 }
 
 // eslint-disable-next-line react/display-name
@@ -24,7 +28,12 @@ const Select: FC<SelectProps> = forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <label className="relative">
         {label && (
-          <div data-testid="select-label" className="text-xs font-normal font-poppins mb-2">{label}</div>
+          <div
+            data-testid="select-label"
+            className="text-xs font-normal font-poppins mb-2"
+          >
+            {label}
+          </div>
         )}
         <select ref={ref} className={classes.join(' ')} {...props}>
           {children}
@@ -37,7 +46,12 @@ const Select: FC<SelectProps> = forwardRef<HTMLSelectElement, SelectProps>(
           <FaSortDown className={SelectClasses.icon} />
         </div>
         {errorMessage && (
-          <p data-testid="select-error-message" className={SelectClasses['error-message']}>{errorMessage}</p>
+          <p
+            data-testid="select-error-message"
+            className={SelectClasses['error-message']}
+          >
+            {errorMessage}
+          </p>
         )}
       </label>
     )
