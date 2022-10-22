@@ -4,7 +4,7 @@ const Document = () => {
   return (
     <Html>
       <Head>
-        <link href="http://fonts.cdnfonts.com/css/poppins" rel="stylesheet" />
+        <link href="https://fonts.cdnfonts.com/css/poppins" rel="stylesheet" />
       </Head>
       <body>
         <Main />
