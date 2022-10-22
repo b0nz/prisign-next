@@ -1,0 +1,30 @@
+.select {
+  @apply px-4 py-2 font-roboto text-white font-normal text-lg;
+}
+
+.select-transparent {
+  @apply bg-transparent border-b border-privblack-0;
+}
+.select-transparent:hover,
+.select-transparent:focus {
+  @apply border-b border-privgreen-500 outline-none cursor-pointer;
+}
+
+.select-transparent:hover + div .icon,
+.select-transparent:focus + div .icon {
+  @apply text-privgreen-500;
+}
+
+.icon {
+  @apply text-lg text-privblack-0;
+}
+
+.error-message {
+  @apply text-red-500 text-sm font-normal;
+}
+.select-error {
+  @apply border-b border-red-500;
+}
+.select-error + div .icon {
+  @apply text-red-500;
+}
