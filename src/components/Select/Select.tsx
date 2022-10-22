@@ -39,11 +39,13 @@ const Select: FC<SelectProps> = forwardRef<HTMLSelectElement, SelectProps>(
           {children}
         </select>
         <div
-          className={`absolute right-0 top-5 bottom-${
+          className={`absolute right-0 top-6 bottom-${
             errorMessage ? 5 : 0
           } flex items-center`}
         >
-          <FaSortDown className={SelectClasses.icon} />
+          <div className="p-2">
+            <FaSortDown className={SelectClasses.icon} />
+          </div>
         </div>
         {errorMessage && (
           <p
