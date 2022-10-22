@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/github/b0nz/prisign/branch/master/graph/badge.svg?token=NN5D76OY5N)](https://codecov.io/github/b0nz/prisign)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
