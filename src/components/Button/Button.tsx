@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import type { ButtonProps } from './Button.models'
+import type { ButtonProps } from './Button.model'
 import ButtonStyles from './Button.module.css'
 import { CgSpinner } from 'react-icons/cg'
 
@@ -9,6 +9,7 @@ const Button: FC<ButtonProps> = ({
   block,
   className,
   loading,
+  htmlType = 'button',
   ...props
 }) => {
   const classes = [
@@ -26,7 +27,7 @@ const Button: FC<ButtonProps> = ({
   }
 
   return (
-    <button className={classes.join(' ')} {...props}>
+    <button type={htmlType} className={classes.join(' ')} {...props}>
       {loading ? (
         <span className="flex justify-center align-middle">
           <CgSpinner data-testid="loading" className="animate-spin" />
