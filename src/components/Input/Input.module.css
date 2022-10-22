@@ -1,0 +1,33 @@
+.input {
+  @apply px-4 py-2 rounded-md font-roboto text-white font-normal text-lg;
+}
+.input-password {
+  @apply pr-20;
+}
+
+.input-transparent {
+  @apply bg-transparent border border-privblack-0;
+}
+.input-transparent:hover,
+.input-transparent:focus {
+  @apply ring-1 ring-privgreen-500 outline-none;
+}
+
+.input-transparent:hover + div button .icon,
+.input-transparent:focus + div button .icon {
+  @apply text-privgreen-500;
+}
+
+.icon {
+  @apply text-lg;
+}
+
+.error-message {
+  @apply text-red-500 text-sm font-normal;
+}
+.input-error {
+  @apply border border-red-500;
+}
+.input-error + div button .icon {
+  @apply text-red-500;
+}
