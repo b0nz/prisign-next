@@ -39,7 +39,7 @@ const Select: FC<SelectProps> = forwardRef<HTMLSelectElement, SelectProps>(
           {children}
         </select>
         <div
-          className={`absolute right-0 top-6 bottom-${
+          className={`absolute right-0 top-5 bottom-${
             errorMessage ? 5 : 0
           } flex items-center`}
         >
