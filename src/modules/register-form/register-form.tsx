@@ -1,11 +1,19 @@
-import Button from '@/components/Button'
 import Input from '@/components/Input'
 import Select, { Option } from '@/components/Select'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { IRegisterForm } from './RegisterForm.model'
+import { IRegisterForm } from './register-form.model'
 import codes from 'country-calling-code'
+import dynamic from 'next/dynamic'
+import createStore from '@/stores/store'
+
+const Button = dynamic(
+  () => {
+    return import('@/components/Button')
+  },
+  { ssr: false },
+)
 
 const REGISTER_SCHEMA = yup.object().shape({
   country: yup.string().required('Country is required'),
@@ -14,6 +22,7 @@ const REGISTER_SCHEMA = yup.object().shape({
 })
 
 const RegisterForm = () => {
+  const { authIsLoading, registerRequest } = createStore()
   const {
     register,
     handleSubmit,
@@ -24,12 +33,13 @@ const RegisterForm = () => {
   })
 
   const onSubmit = (data: IRegisterForm) => {
-    console.log(data, 'ini data')
+    console.log('[REGISTER DATA]', data)
+    registerRequest(data)
   }
 
   return (
     <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col gap-8 border rounded-lg border-privblack-0 p-8">
+      <div className="card">
         <div>
           <h3 className="text-lg font-semibold">Create New Account</h3>
           <p className="text-[#8E8EA3] text-xs">
@@ -50,7 +60,7 @@ const RegisterForm = () => {
                 <Option
                   key={code.isoCode3}
                   className="w-full"
-                  value={code.countryCodes[0]}
+                  value={`+${code.countryCodes[0]}`}
                 >
                   {`${code.country} (+${code.countryCodes[0]})`}
                 </Option>
@@ -92,6 +102,8 @@ const RegisterForm = () => {
           variant="primary"
           className="font-medium"
           type="submit"
+          loading={authIsLoading}
+          disabled={authIsLoading}
         >
           Register
         </Button>
