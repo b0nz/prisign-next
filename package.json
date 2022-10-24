@@ -11,7 +11,8 @@
     "test:watch": "jest --watch",
     "test:ci": "jest --ci",
     "format": "prettier --check --ignore-path .gitignore ./src",
-    "format:fix": "prettier --write --ignore-path .gitignore ./src"
+    "format:fix": "prettier --write --ignore-path .gitignore ./src",
+    "proxy": "lcp --proxyUrl http://pretest-qa.dcidev.id/api/v1"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.10",
@@ -22,9 +23,11 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.38.0",
+    "react-hot-toast": "^2.4.0",
     "react-icons": "^4.6.0",
     "tailwindcss-radix": "^2.6.1",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zustand": "^4.1.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -39,6 +42,7 @@
     "eslint-config-prettier": "^8.5.0",
     "jest": "^29.2.1",
     "jest-environment-jsdom": "^29.2.1",
+    "local-cors-proxy": "^1.1.0",
     "postcss": "^8.4.18",
     "prettier": "^2.7.1",
     "tailwindcss": "^3.2.0",
