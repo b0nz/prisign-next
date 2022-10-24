@@ -28,3 +28,7 @@
 .select-error + div .icon {
   @apply text-red-500;
 }
+
+.select:disabled {
+  @apply border-privblack-0 cursor-not-allowed;
+}
