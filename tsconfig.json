@@ -19,6 +19,8 @@
       "@/components/*": ["src/components/*"],
       "@/modules/*": ["src/modules/*"],
       "@/pages/*": ["src/pages/*"],
+      "@/hooks/*": ["src/hooks/*"],
+      "@/stores/*": ["src/stores/*"],
       "@/utils/*": ["src/utils/*"]
     }
   },
