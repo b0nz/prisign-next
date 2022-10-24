@@ -12,12 +12,17 @@ const customJestConfig = {
     // Handle module aliases (this will be automatically configured for you soon)
     '^@/components/(.*)$': '<rootDir>/src/components/$1',
     '^@/pages/(.*)$': '<rootDir>/src/pages/$1',
+    '^@/hooks/(.*)$': '<rootDir>/src/hooks/$1',
+    '^@/modules/(.*)$': '<rootDir>/src/modules/$1',
+    '^@/stores/(.*)$': '<rootDir>/src/stores/$1',
+    '^@/utils/(.*)$': '<rootDir>/src/utils/$1',
   },
   testEnvironment: 'jest-environment-jsdom',
   collectCoverageFrom: [
     'src/**/*.(ts|tsx)',
     '!src/**/*.model.ts',
     '!src/pages/_*.tsx',
+    '!src/**/constants.ts',
   ],
 }
 
