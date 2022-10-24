@@ -23,7 +23,7 @@ export interface AuthSlice {
   token: string | null
   notification: {
     show: boolean
-    type: string
+    type: 'success' | 'info' | null
     message: string
   }
   setNotification: (payload: { show: boolean; message?: string }) => void
@@ -40,7 +40,7 @@ const createAuthSlice = (set: any, get: any) => ({
   token: null,
   notification: {
     show: false,
-    type: 'success',
+    type: null,
     message: '',
   },
   setNotification: (payload: { show: boolean; message?: string }) =>

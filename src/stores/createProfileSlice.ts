@@ -7,7 +7,7 @@ export interface IUserProfile {
   level?: number | null
   age?: string | null
   birthday?: string | null
-  gender?: string | null
+  gender?: number | null
   zodiac?: string | null
   hometown?: string | null
   bio?: string | null
