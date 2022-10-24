@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.otp-form input {
+  @apply w-full flex-1 text-center py-3 h-12 font-bold focus:text-privgreen-500 text-privgreen-500 bg-transparent outline-none focus:ring-1 focus:ring-privgreen-500 border border-privblack-0 rounded;
+}
+
+.priv-tabs {
+  @apply px-4 py-2 border-b-4 border-transparent radix-state-active:border-privgreen-500;
+}
+
+.card {
+  @apply flex flex-col gap-8 border rounded-lg border-privblack-0 p-8;
+}
+
+.card .heading {
+  @apply text-lg font-poppins font-semibold;
+}
+
+.card .sub-heading {
+  @apply text-[#8E8EA3] text-xs font-poppins font-light;
+}
