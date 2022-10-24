@@ -1,13 +1,12 @@
-import { FC } from 'react'
+import { FC, forwardRef } from 'react'
 import { TextAreaProps } from './TextArea.model'
 import TextAreaClasses from './TextArea.module.css'
 
-const TextArea: FC<TextAreaProps> = ({
-  className,
-  errorMessage,
-  label,
-  ...props
-}) => {
+// eslint-disable-next-line react/display-name
+const TextArea: FC<TextAreaProps> = forwardRef<
+  HTMLTextAreaElement,
+  TextAreaProps
+>(({ className, errorMessage, label, ...props }, ref) => {
   const classes = [
     TextAreaClasses.textarea,
     TextAreaClasses['textarea-transparent'],
@@ -30,7 +29,7 @@ const TextArea: FC<TextAreaProps> = ({
           {label}
         </div>
       )}
-      <textarea className={classes.join(' ')} {...props} />
+      <textarea ref={ref} className={classes.join(' ')} {...props} />
       {errorMessage && (
         <p
           data-testid="textarea-error-message"
@@ -41,6 +40,6 @@ const TextArea: FC<TextAreaProps> = ({
       )}
     </label>
   )
-}
+})
 
 export default TextArea
