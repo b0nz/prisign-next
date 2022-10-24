@@ -1,0 +1,38 @@
+.textarea {
+  @apply px-4 py-2 rounded-md font-roboto text-white font-normal text-lg;
+}
+
+.textarea-transparent {
+  @apply bg-transparent border border-privblack-0;
+}
+.textarea-transparent:hover,
+.textarea-transparent:focus {
+  @apply ring-1 ring-privgreen-500 outline-none;
+}
+
+.textarea-transparent:hover + div button .icon,
+.textarea-transparent:focus + div button .icon {
+  @apply text-privgreen-500;
+}
+
+.icon {
+  @apply text-lg;
+}
+
+.error-message {
+  @apply text-red-500 text-sm font-normal;
+}
+.textarea-error {
+  @apply border border-red-500;
+}
+.textarea-error + div button .icon {
+  @apply text-red-500;
+}
+
+.textarea:disabled {
+  @apply border-privblack-0 cursor-not-allowed;
+}
+
+.textarea-transparent::placeholder {
+  @apply text-privblack-0;
+}
