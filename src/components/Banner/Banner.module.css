@@ -1,0 +1,10 @@
+.banner {
+  @apply bg-privblack-100 rounded-lg p-4 flex gap-4;
+}
+
+.banner-icon {
+  @apply text-privgreen-500;
+}
+.close-icon {
+  @apply text-white;
+}
