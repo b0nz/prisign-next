@@ -37,3 +37,7 @@
 .btn-transparent:active {
   @apply text-privgray-600;
 }
+
+.btn-md:disabled {
+  @apply bg-privblack-50 text-privgray-500 border border-privblack-50 cursor-not-allowed;
+}
