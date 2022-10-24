@@ -47,6 +47,7 @@ const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
               data-testid="btn-show-hide-password"
               variant="transparent"
               onClick={() => setShow(!show)}
+              type="button"
             >
               {show ? (
                 <FiEye

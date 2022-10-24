@@ -31,3 +31,7 @@
 .input-error + div button .icon {
   @apply text-red-500;
 }
+
+.input:disabled {
+  @apply border-privblack-0 cursor-not-allowed;
+}
