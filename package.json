@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.10",
+    "@radix-ui/react-dialog": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.1",
     "country-calling-code": "^0.0.3",
     "dayjs": "^1.11.6",
