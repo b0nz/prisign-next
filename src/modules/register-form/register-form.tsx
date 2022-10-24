@@ -33,8 +33,14 @@ const RegisterForm = () => {
   })
 
   const onSubmit = (data: IRegisterForm) => {
-    console.log('[REGISTER DATA]', data)
-    registerRequest(data)
+    console.log('[REGISTER DATA]', {
+      ...data,
+      phone: `${data.country.replace('+', '')}${data.phone}`,
+    })
+    registerRequest({
+      ...data,
+      phone: `${data.country.replace('+', '')}${data.phone}`,
+    })
   }
 
   return (

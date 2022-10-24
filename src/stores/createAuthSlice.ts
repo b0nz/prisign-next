@@ -205,8 +205,14 @@ const createAuthSlice = (set: any, get: any) => ({
         toast.success('Success')
         set({
           otpMatchLoading: false,
-          token: data.data?.user?.token,
+          token: data.data?.user?.access_token,
+          notification: {
+            show: false,
+            type: null,
+            message: '',
+          },
         })
+        Router.replace('/profile')
       }
     } catch (error) {
       set({ otpMatchLoading: false })
