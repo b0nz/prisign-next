@@ -33,11 +33,20 @@ export interface IUserProfile {
   }
 }
 
+export interface IPayloadInformation {
+  name?: string | null
+  gender?: number | null
+  birthday?: string | null
+  hometown?: string | null
+  bio?: string | null
+}
+
 export interface ProfileSlice {
   status: 'pending' | 'loading' | 'granted' | 'rejected' | null
   profile: IUserProfile | null
   profileIsLoading: boolean
   checkCredentials: () => void
+  postInformation: (payload: IPayloadInformation) => void
 }
 
 const createProfileSlice = (set: any, get: any) => ({
@@ -69,12 +78,50 @@ const createProfileSlice = (set: any, get: any) => ({
       } else {
         set({
           profileIsLoading: false,
-          profile: data?.data?.user,
+          profile: {
+            ...data?.data?.user,
+            gender: data?.data?.user?.gender === 'male' ? 0 : 1,
+          },
           status: 'granted',
         })
       }
     } catch (error) {
       set({ profileIsLoading: false, profile: null, status: 'rejected' })
+      toast.error(JSON.stringify(error))
+      console.log('[OTP REQ ERROR]', error)
+    }
+  },
+  postInformation: async (payload: IPayloadInformation) => {
+    try {
+      set({ profileIsLoading: true })
+      const response = await fetch(`${BASE_URL}/profile`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${get().token}`,
+        },
+        body: JSON.stringify(payload),
+      })
+      const data = await response.json()
+      if (!response.ok) {
+        if (typeof data.error?.errors?.[0] === 'object') {
+          toast.error(
+            data.error?.errors?.[0]?.message || data.error?.errors?.[0]?.error,
+          )
+          set({ profileIsLoading: false, profile: null })
+        } else {
+          toast.error(JSON.stringify(data.error?.errors?.[0]))
+          set({ profileIsLoading: false, profile: null })
+        }
+      } else {
+        toast.success('Success')
+        set({
+          profileIsLoading: false,
+          profile: data?.data?.user,
+        })
+      }
+    } catch (error) {
+      set({ profileIsLoading: false, profile: null })
       toast.error(JSON.stringify(error))
       console.log('[OTP REQ ERROR]', error)
     }

@@ -12,6 +12,8 @@ import {
 } from './information-tab.model'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
+import createStore from '@/stores/store'
+import FileUpload from '@/components/FileUpload'
 
 const Button = dynamic(() => import('@/components/Button'), {
   ssr: false,
@@ -29,18 +31,28 @@ const InformationTab: FC<InformationTabProps> = ({
   data = null,
   loading = false,
 }) => {
+  const { postInformation } = createStore()
   const [isEditable, setIsEditable] = useState(false)
   const {
     register,
     handleSubmit,
-    reset,
+    setValue,
     formState: { errors },
   } = useForm<InformationFormProps>({
     resolver: yupResolver(INFORMATION_SCHEMA),
+    defaultValues: {
+      name: data?.name as string,
+      gender: data?.gender as number,
+      birthday: data?.birthday as string,
+      hometown: data?.hometown as string,
+      bio: data?.bio as string,
+    },
   })
 
   const onSubmit = (payload: InformationFormProps) => {
     console.log('[INFORMATION DATA]', payload)
+    postInformation(payload)
+    setIsEditable(false)
   }
 
   return (
@@ -109,11 +121,23 @@ const InformationTab: FC<InformationTabProps> = ({
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setIsEditable(!isEditable)}
+                  onClick={() => {
+                    setIsEditable(!isEditable)
+                    setValue('name', data?.name as string)
+                    setValue('gender', data?.gender as number)
+                    setValue('birthday', data?.birthday as string)
+                    setValue('hometown', data?.hometown as string)
+                    setValue('bio', data?.bio as string)
+                  }}
                 >
                   Discard
                 </Button>
-                <Button type="submit" variant="primary" disabled={loading}>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  loading={loading}
+                  disabled={loading}
+                >
                   Update
                 </Button>
               </div>
@@ -136,9 +160,13 @@ const InformationTab: FC<InformationTabProps> = ({
                 }
               />
               <div className="flex flex-col gap-2">
-                <Button block disabled={loading}>
-                  Upload Media
-                </Button>
+                <FileUpload
+                  buttonUpload={
+                    <Button block disabled={loading}>
+                      Upload Media
+                    </Button>
+                  }
+                />
                 <p className="sub-heading">PNG, JPG or GIF up to 2MB</p>
               </div>
             </div>

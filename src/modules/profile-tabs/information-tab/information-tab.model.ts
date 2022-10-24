@@ -3,7 +3,7 @@ export interface InformationTabProps {
     id?: string | null
     name?: string | null
     gender?: number | null
-    burthday?: string | null
+    birthday?: string | null
     hometown?: string | null
     bio?: string | null
     user_picture?: null | {

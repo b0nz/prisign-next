@@ -7,7 +7,6 @@ import InformationTab from './information-tab'
 import { ProfileTabsProps } from './profile-tabs.model'
 
 const ProfileTabs: FC<ProfileTabsProps> = ({ data = null, loading }) => {
-  console.log(data, loading)
   return (
     <TabsPrimitive.Root
       defaultValue="information-tab"

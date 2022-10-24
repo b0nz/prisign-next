@@ -5,6 +5,7 @@ import { MdOutlineAddAPhoto } from 'react-icons/md'
 import useAuth from '@/hooks/useAuth'
 import Link from 'next/link'
 import ProfileTabs from '@/modules/profile-tabs'
+import FileUpload from '@/components/FileUpload'
 
 const Profile: NextPage = () => {
   const { status, profile, profileIsLoading } = useAuth()
@@ -54,18 +55,22 @@ const Profile: NextPage = () => {
             />
             <div className="flex flex-col -mt-40 mx-auto md:max-w-[688px] gap-4">
               <div className="flex flex-row justify-end">
-                <button
-                  className="py-1 px-2 rounded-full backdrop-blur-[22px]"
-                  style={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
-                >
-                  <span className="flex gap-[2px] text-xs">
-                    <MdOutlineAddAPhoto
-                      className="scale-x-[-1] text-privgreen-500"
-                      size={14}
-                    />
-                    <span>Change Cover</span>
-                  </span>
-                </button>
+                <FileUpload
+                  buttonUpload={
+                    <button
+                      className="py-1 px-2 rounded-full backdrop-blur-[22px]"
+                      style={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
+                    >
+                      <span className="flex gap-[2px] text-xs">
+                        <MdOutlineAddAPhoto
+                          className="scale-x-[-1] text-privgreen-500"
+                          size={14}
+                        />
+                        <span>Change Cover</span>
+                      </span>
+                    </button>
+                  }
+                />
               </div>
               <div
                 style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
