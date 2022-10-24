@@ -25,15 +25,18 @@ const Banner: FC<BannerProps> = ({
   message,
   show = false,
   onClose,
-  type = 'success',
+  type = null,
   ...props
 }) => {
   const classes = [BannerClasses.banner]
 
   return (
-    <div data-testid="banner-container" style={{ display: show ? 'inherit' : 'none' }}>
+    <div
+      data-testid="banner-container"
+      style={{ display: show ? 'inherit' : 'none' }}
+    >
       <div className={classes.join(' ')} {...props}>
-        <div>{statusIcon[type]}</div>
+        <div>{statusIcon[type || 'success']}</div>
         <div
           data-testid="banner-message"
           className="flex-1 font-poppins font-normal text-xs"
