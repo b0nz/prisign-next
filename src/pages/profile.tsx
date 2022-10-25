@@ -6,9 +6,11 @@ import useAuth from '@/hooks/useAuth'
 import Link from 'next/link'
 import ProfileTabs from '@/modules/profile-tabs'
 import FileUpload from '@/components/FileUpload'
+import createStore from '@/stores/store'
 
 const Profile: NextPage = () => {
   const { status, profile, profileIsLoading } = useAuth()
+  const { uploadCover } = createStore()
 
   if (profileIsLoading && status === 'pending')
     return (
@@ -70,6 +72,7 @@ const Profile: NextPage = () => {
                       </span>
                     </button>
                   }
+                  onUpload={(payload) => uploadCover(payload)}
                 />
               </div>
               <div

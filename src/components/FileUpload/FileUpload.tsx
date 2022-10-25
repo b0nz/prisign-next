@@ -1,8 +1,13 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { DragEvent, FC, HTMLAttributes, ReactNode, useState } from 'react'
-import { IoCloseOutline } from 'react-icons/io5'
+import { FC, HTMLAttributes, ReactNode, useEffect, useState } from 'react'
+import { IoCloseOutline, IoTrashBin } from 'react-icons/io5'
 import { MdAddPhotoAlternate } from 'react-icons/md'
 import Button from '@/components/Button'
+import { useDropzone } from 'react-dropzone'
+import Image from 'next/image'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 interface IContent extends HTMLAttributes<HTMLElement> {
   children?: ReactNode
@@ -28,25 +33,78 @@ const Content: FC<IContent> = ({ children, ...props }) => {
 
 interface IFileUpload {
   buttonUpload?: ReactNode
+  onUpload?: (payload: FormData) => void
 }
 
-const FileUpload: FC<IFileUpload> = ({ buttonUpload }) => {
-  const [open, setOpen] = useState(false)
-  const [dragActive, setDragActive] = useState(false)
+const FILEUPLOAD_SCHEMA = yup.object().shape({
+  image: yup.mixed(),
+})
 
-  // handle drag events
-  const handleDrag = (e: DragEvent) =>  {
-    e.preventDefault()
-    e.stopPropagation()
-    if (e.type === 'dragenter' || e.type === 'dragover') {
-      setDragActive(true)
-    } else if (e.type === 'dragleave') {
-      setDragActive(false)
-    }
-  }
+const FileUpload: FC<IFileUpload> = ({
+  buttonUpload,
+  onUpload = (e) => {},
+}) => {
+  const [open, setOpen] = useState(false)
+  const [files, setFiles] = useState([])
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<{ image: File }>({
+    resolver: yupResolver(FILEUPLOAD_SCHEMA),
+  })
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: {
+      'image/*': [],
+    },
+    onDrop: (acceptedFiles: any) => {
+      setFiles(
+        acceptedFiles.map((file: any) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          }),
+        ),
+      )
+    },
+  })
+
+  useEffect(() => {
+    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
+    return () =>
+      files.forEach((file: any) => URL.revokeObjectURL(file?.preview))
+  }, [files])
+
+  const thumbs = files.map((file: any) => (
+    <div key={file?.name}>
+      <div className="relative flex justify-end align-middle">
+        <Image
+          src={file?.preview}
+          // Revoke data uri after image is loaded
+          onLoad={() => {
+            URL.revokeObjectURL(file?.preview)
+          }}
+          alt="preview"
+          width={640}
+          height={344}
+        />
+        <button
+          className="absolute text-red-500 bg-white rounded-full p-2"
+          onClick={() => setFiles([])}
+        >
+          <IoTrashBin />
+        </button>
+      </div>
+    </div>
+  ))
 
   return (
-    <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
+    <DialogPrimitive.Root
+      open={open}
+      onOpenChange={(val) => {
+        setFiles([])
+        setOpen(val)
+      }}
+    >
       <DialogPrimitive.Trigger asChild>{buttonUpload}</DialogPrimitive.Trigger>
       <Content>
         <div className="flex flex-col gap-6">
@@ -60,50 +118,71 @@ const FileUpload: FC<IFileUpload> = ({ buttonUpload }) => {
           </div>
           <div className="">
             <form
-              className="flex flex-col gap-2  h-64 w-full text-center"
               id="form-file-upload"
-              // onDragEnter={handleDrag}
-              onSubmit={(e) => e.preventDefault()}
+              {...getRootProps({ className: 'dropzone ' })}
+              onSubmit={(e) => {
+                e.preventDefault()
+                console.log(e)
+              }}
             >
               <input
                 className="hidden"
                 type="file"
                 id="input-file-upload"
-                multiple={true}
+                {...getInputProps()}
               />
               <label
                 id="label-file-upload"
                 htmlFor="input-file-upload"
-                className="h-full min-h-[344px] border border-dashed bg-privblack-100 "
+                className="h-full min-h-[344px] bg-privblack-100"
+                {...register('image')}
               >
-                <div className="flex flex-col gap-[10px] justify-center align-middle text-xl text-center py-[69px] px-[197px]">
-                  <div className="flex justify-center align-middle">
-                    <MdAddPhotoAlternate
-                      size={50}
-                      className="text-privgreen-500"
-                    />
+                {files.length > 0 ? (
+                  thumbs
+                ) : (
+                  <div className="flex flex-col gap-[10px] justify-center align-middle text-xl text-center py-[69px] px-[197px] border border-dashed rounded">
+                    <div className="flex justify-center align-middle">
+                      <MdAddPhotoAlternate
+                        size={50}
+                        className="text-privgreen-500"
+                      />
+                    </div>
+                    <p>Drag & Drop your Picture here</p>
+                    <p>or</p>
+                    <button
+                      type="button"
+                      className="text-privgreen-500 text-lg"
+                    >
+                      Upload a file
+                    </button>
                   </div>
-                  <p>Drag & Drop your Picture here</p>
-                  <p>or</p>
-                  <button className="text-privgreen-500 text-lg">
-                    Upload a file
-                  </button>
-                </div>
+                )}
               </label>
+              {errors?.image && (
+                <p className="text-red-500 text-sm">{errors?.image?.message}</p>
+              )}
               <div className="flex justify-between align-middle mt-4 tex-xs">
                 <p>Maximum File Size : 5 Mb</p>
                 <p>PNG, JPG or GIF</p>
               </div>
-              <Button
-                block
-                type="submit"
-                variant="outline"
-                style={{ borderColor: '#54B78A', color: '#54B78A' }}
-                className="mt-8"
-              >
-                UPLOAD
-              </Button>
             </form>
+            <Button
+              block
+              type="button"
+              variant="outline"
+              style={{ borderColor: '#54B78A', color: '#54B78A' }}
+              className="mt-8"
+              onClick={handleSubmit((e: any) => {
+                console.log(e)
+                const data = new FormData()
+                data.append('image', e?.image[0])
+                onUpload(data)
+                setFiles([])
+                setOpen(false)
+              })}
+            >
+              UPLOAD
+            </Button>
           </div>
         </div>
       </Content>
