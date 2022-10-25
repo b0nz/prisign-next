@@ -9,7 +9,9 @@ describe('Banner', () => {
   })
   it('should render correctly, show false', async () => {
     render(<Banner data-testid="banner" />)
-    expect(screen.queryByTestId('banner-container')).toHaveStyle('display: none')
+    expect(screen.queryByTestId('banner-container')).toHaveStyle(
+      'display: none',
+    )
   })
   it('should render correctly, with handle close button', async () => {
     const handleClose = jest.fn()

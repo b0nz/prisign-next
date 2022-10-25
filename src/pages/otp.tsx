@@ -55,9 +55,7 @@ const Otp: NextPage<OtpProps> = ({ send = '', user_id = '' }) => {
                 <div className="flex flex-col gap-8">
                   <div className="card">
                     <div>
-                      <h3 className="heading">
-                        OTP Verification
-                      </h3>
+                      <h3 className="heading">OTP Verification</h3>
                       <p className="sub-heading">
                         Insert OTP code sent to your phone
                       </p>
