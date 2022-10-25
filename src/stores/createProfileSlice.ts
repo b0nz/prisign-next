@@ -41,12 +41,27 @@ export interface IPayloadInformation {
   bio?: string | null
 }
 
+export interface IPayloadCareer {
+  company_name?: string | null
+  starting_from?: string | null
+  ending_in?: string | null
+  position?: string | null
+}
+
+export interface IPayloadEducation {
+  school_name?: string | null
+  graduation_time?: string | null
+}
+
 export interface ProfileSlice {
   status: 'pending' | 'loading' | 'granted' | 'rejected' | null
   profile: IUserProfile | null
   profileIsLoading: boolean
   checkCredentials: () => void
   postInformation: (payload: IPayloadInformation) => void
+  getProfile: () => void
+  postCareer: (payload: IPayloadCareer) => void
+  postEducation: (payload: IPayloadEducation) => void
 }
 
 const createProfileSlice = (set: any, get: any) => ({
@@ -124,6 +139,108 @@ const createProfileSlice = (set: any, get: any) => ({
       set({ profileIsLoading: false, profile: null })
       toast.error(JSON.stringify(error))
       console.log('[OTP REQ ERROR]', error)
+    }
+  },
+  getProfile: async () => {
+    try {
+      set({ profileIsLoading: true })
+      const response = await fetch(`${BASE_URL}/profile/me`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${get().token}`,
+        },
+      })
+      const data = await response.json()
+      if (!response.ok) {
+        if (typeof data.error?.errors?.[0] === 'object') {
+          toast.error(
+            data.error?.errors?.[0]?.message || data.error?.errors?.[0]?.error,
+          )
+          set({ profileIsLoading: false, profile: null })
+        } else {
+          toast.error(JSON.stringify(data.error?.errors?.[0]))
+          set({ profileIsLoading: false, profile: null })
+        }
+      } else {
+        set({
+          profileIsLoading: false,
+          profile: data?.data?.user,
+        })
+      }
+    } catch (error) {
+      set({ profileIsLoading: false, profile: null })
+      toast.error(JSON.stringify(error))
+      console.log('[GET PROFILE ERROR]', error)
+    }
+  },
+  postCareer: async (payload: IPayloadCareer) => {
+    try {
+      set({ profileIsLoading: true })
+      const response = await fetch(`${BASE_URL}/profile/career`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${get().token}`,
+        },
+        body: JSON.stringify(payload),
+      })
+      const data = await response.json()
+      if (!response.ok) {
+        if (typeof data.error?.errors?.[0] === 'object') {
+          toast.error(
+            data.error?.errors?.[0]?.message || data.error?.errors?.[0]?.error,
+          )
+          set({ profileIsLoading: false, profile: null })
+        } else {
+          toast.error(JSON.stringify(data.error?.errors?.[0]))
+          set({ profileIsLoading: false, profile: null })
+        }
+      } else {
+        toast.success('Success')
+        set({
+          profileIsLoading: false,
+          profile: data?.data?.user,
+        })
+      }
+    } catch (error) {
+      set({ profileIsLoading: false, profile: null })
+      toast.error(JSON.stringify(error))
+      console.log('[POST CAREER ERROR]', error)
+    }
+  },
+  postEducation: async (payload: IPayloadEducation) => {
+    try {
+      set({ profileIsLoading: true })
+      const response = await fetch(`${BASE_URL}/profile/education`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${get().token}`,
+        },
+        body: JSON.stringify(payload),
+      })
+      const data = await response.json()
+      if (!response.ok) {
+        if (typeof data.error?.errors?.[0] === 'object') {
+          toast.error(
+            data.error?.errors?.[0]?.message || data.error?.errors?.[0]?.error,
+          )
+          set({ profileIsLoading: false, profile: null })
+        } else {
+          toast.error(JSON.stringify(data.error?.errors?.[0]))
+          set({ profileIsLoading: false, profile: null })
+        }
+      } else {
+        toast.success('Success')
+        set({
+          profileIsLoading: false,
+          profile: data?.data?.user,
+        })
+      }
+    } catch (error) {
+      set({ profileIsLoading: false, profile: null })
+      toast.error(JSON.stringify(error))
+      console.log('[POST EDUCATION ERROR]', error)
     }
   },
 })

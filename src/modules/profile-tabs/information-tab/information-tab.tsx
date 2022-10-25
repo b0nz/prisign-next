@@ -32,7 +32,7 @@ const InformationTab: FC<InformationTabProps> = ({
   loading = false,
 }) => {
   const { postInformation } = createStore()
-  const [isEditable, setIsEditable] = useState(false)
+  const [formIsActive, setFormIsActive] = useState(false)
   const {
     register,
     handleSubmit,
@@ -52,7 +52,7 @@ const InformationTab: FC<InformationTabProps> = ({
   const onSubmit = (payload: InformationFormProps) => {
     console.log('[INFORMATION DATA]', payload)
     postInformation(payload)
-    setIsEditable(false)
+    setFormIsActive(false)
   }
 
   return (
@@ -63,10 +63,10 @@ const InformationTab: FC<InformationTabProps> = ({
           <p className="sub-heading">Your personal data</p>
         </div>
         <div className="flex justify-center align-middle">
-          {!isEditable && (
+          {!formIsActive && (
             <button
               className="text-privgreen-500 hover:text-privgreen-300 cursor-pointer"
-              onClick={() => setIsEditable(!isEditable)}
+              onClick={() => setFormIsActive(!formIsActive)}
             >
               <RiEdit2Line size={20} />
             </button>
@@ -84,12 +84,14 @@ const InformationTab: FC<InformationTabProps> = ({
               type="text"
               label="Name*"
               className="w-full"
-              disabled={!isEditable || loading}
+              disabled={!formIsActive || loading}
+              errorMessage={errors?.name?.message}
               {...register('name')}
             />
             <Select
               label="Gender"
-              disabled={!isEditable || loading}
+              disabled={!formIsActive || loading}
+              errorMessage={errors?.gender?.message}
               {...register('gender')}
             >
               <Option value="0">Male</Option>
@@ -99,30 +101,33 @@ const InformationTab: FC<InformationTabProps> = ({
               type="date"
               label="Date of Birth"
               className="w-full"
-              disabled={!isEditable || loading}
+              disabled={!formIsActive || loading}
+              errorMessage={errors?.birthday?.message}
               {...register('birthday')}
             />
             <Input
               type="text"
               label="Home Town"
               className="w-full"
-              disabled={!isEditable || loading}
+              disabled={!formIsActive || loading}
+              errorMessage={errors?.hometown?.message}
               {...register('hometown')}
             />
             <TextArea
               className="min-h-[167px] w-full"
               label="Bio"
               placeholder="Write your bio here"
-              disabled={!isEditable || loading}
+              disabled={!formIsActive || loading}
+              errorMessage={errors?.bio?.message}
               {...register('bio')}
             />
-            {isEditable && (
+            {formIsActive && (
               <div className="flex gap-4">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => {
-                    setIsEditable(!isEditable)
+                    setFormIsActive(!formIsActive)
                     setValue('name', data?.name as string)
                     setValue('gender', data?.gender as number)
                     setValue('birthday', data?.birthday as string)

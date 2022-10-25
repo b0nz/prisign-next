@@ -1,3 +1,4 @@
+import createStore from '@/stores/store'
 import * as TabsPrimitive from '@radix-ui/react-tabs'
 import { FC } from 'react'
 import CareerTab from './career-tab'
@@ -50,10 +51,10 @@ const ProfileTabs: FC<ProfileTabsProps> = ({ data = null, loading }) => {
         <InformationTab loading={loading} data={data} />
       </TabsPrimitive.Content>
       <TabsPrimitive.Content value="career-tab">
-        <CareerTab />
+        <CareerTab data={data?.career} loading={loading} />
       </TabsPrimitive.Content>
       <TabsPrimitive.Content value="education-tab">
-        <EducationTab />
+        <EducationTab data={data?.education} loading={loading} />
       </TabsPrimitive.Content>
       <TabsPrimitive.Content value="gallery-tab">
         <GalleryTab />
