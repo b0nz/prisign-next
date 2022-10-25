@@ -18,5 +18,5 @@ yarn run proxy          # to bypass CORS
 yarn run dev            # to run local development server
 
 # or
-yarn run demo:yarn-dev  # running parallel
+yarn run demo:dev	# running parallel
 ```
