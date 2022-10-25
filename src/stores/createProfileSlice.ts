@@ -62,6 +62,8 @@ export interface ProfileSlice {
   getProfile: () => void
   postCareer: (payload: IPayloadCareer) => void
   postEducation: (payload: IPayloadEducation) => void
+  uploadCover: (payload: FormData) => void
+  uploadProfile: (payload: FormData) => void
 }
 
 const createProfileSlice = (set: any, get: any) => ({
@@ -241,6 +243,76 @@ const createProfileSlice = (set: any, get: any) => ({
       set({ profileIsLoading: false, profile: null })
       toast.error(JSON.stringify(error))
       console.log('[POST EDUCATION ERROR]', error)
+    }
+  },
+  uploadCover: async (payload: FormData) => {
+    try {
+      set({ profileIsLoading: true })
+      const response = await fetch(`${BASE_URL}/uploads/cover`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${get().token}`,
+        },
+        body: payload,
+      })
+      const data = await response.json()
+      if (!response.ok) {
+        if (typeof data.error?.errors?.[0] === 'object') {
+          toast.error(
+            data.error?.errors?.[0]?.message || data.error?.errors?.[0]?.error,
+          )
+          set({ profileIsLoading: false, profile: null })
+        } else {
+          toast.error(JSON.stringify(data.error?.errors?.[0]))
+          set({ profileIsLoading: false, profile: null })
+        }
+      } else {
+        toast.success('Success')
+        set({
+          profileIsLoading: false,
+          profile: data?.data?.user,
+        })
+      }
+    } catch (error) {
+      set({ profileIsLoading: false, profile: null })
+      toast.error(JSON.stringify(error))
+      console.log('[UPLOAD COVER ERROR]', error)
+    }
+  },
+  uploadProfile: async (payload: FormData) => {
+    try {
+      set({ profileIsLoading: true })
+      const response = await fetch(`${BASE_URL}/uploads/profile`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${get().token}`,
+        },
+        body: payload,
+      })
+      const data = await response.json()
+      if (!response.ok) {
+        if (typeof data.error?.errors?.[0] === 'object') {
+          toast.error(
+            data.error?.errors?.[0]?.message || data.error?.errors?.[0]?.error,
+          )
+          set({ profileIsLoading: false, profile: null })
+        } else {
+          toast.error(JSON.stringify(data.error?.errors?.[0]))
+          set({ profileIsLoading: false, profile: null })
+        }
+      } else {
+        toast.success('Success')
+        set({
+          profileIsLoading: false,
+          profile: data?.data?.user,
+        })
+      }
+    } catch (error) {
+      set({ profileIsLoading: false, profile: null })
+      toast.error(JSON.stringify(error))
+      console.log('[UPLOAD COVER ERROR]', error)
     }
   },
 })
