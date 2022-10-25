@@ -1,5 +1,3 @@
-[![codecov](https://codecov.io/github/b0nz/prisign/branch/master/graph/badge.svg?token=NN5D76OY5N)](https://codecov.io/github/b0nz/prisign)
-
 ### Requirements
 
 - Node >= v16.x
