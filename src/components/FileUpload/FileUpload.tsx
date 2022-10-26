@@ -13,7 +13,7 @@ interface IContent extends HTMLAttributes<HTMLElement> {
   children?: ReactNode
 }
 
-const Content: FC<IContent> = ({ children, ...props }) => {
+const Content: FC<IContent> = ({ children }) => {
   return (
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay
@@ -97,6 +97,14 @@ const FileUpload: FC<IFileUpload> = ({
     </div>
   ))
 
+  const onSubmit = () => {
+    const data = new FormData()
+    data.append('image', files?.[0])
+    onUpload(data)
+    setFiles([])
+    setOpen(false)
+  }
+
   return (
     <DialogPrimitive.Root
       open={open}
@@ -120,22 +128,19 @@ const FileUpload: FC<IFileUpload> = ({
             <form
               id="form-file-upload"
               {...getRootProps({ className: 'dropzone ' })}
-              onSubmit={(e) => {
-                e.preventDefault()
-                console.log(e)
-              }}
+              onSubmit={handleSubmit(onSubmit)}
             >
               <input
                 className="hidden"
                 type="file"
                 id="input-file-upload"
+                {...register('image')}
                 {...getInputProps()}
               />
               <label
                 id="label-file-upload"
                 htmlFor="input-file-upload"
                 className="h-full min-h-[344px] bg-privblack-100"
-                {...register('image')}
               >
                 {files.length > 0 ? (
                   thumbs
@@ -168,18 +173,11 @@ const FileUpload: FC<IFileUpload> = ({
             </form>
             <Button
               block
-              type="button"
+              type="submit"
+              form="form-file-upload"
               variant="outline"
               style={{ borderColor: '#54B78A', color: '#54B78A' }}
               className="mt-8"
-              onClick={handleSubmit((e: any) => {
-                console.log(e)
-                const data = new FormData()
-                data.append('image', e?.image[0])
-                onUpload(data)
-                setFiles([])
-                setOpen(false)
-              })}
             >
               UPLOAD
             </Button>

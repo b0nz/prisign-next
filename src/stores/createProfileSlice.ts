@@ -62,8 +62,8 @@ export interface ProfileSlice {
   getProfile: () => void
   postCareer: (payload: IPayloadCareer) => void
   postEducation: (payload: IPayloadEducation) => void
-  uploadCover: (payload: FormData) => void
-  uploadProfile: (payload: FormData) => void
+  uploadCover: (payload: any) => void
+  uploadProfile: (payload: any) => void
 }
 
 const createProfileSlice = (set: any, get: any) => ({
@@ -246,6 +246,7 @@ const createProfileSlice = (set: any, get: any) => ({
     }
   },
   uploadCover: async (payload: FormData) => {
+    console.log(payload)
     try {
       set({ profileIsLoading: true })
       const response = await fetch(`${BASE_URL}/uploads/cover`, {
@@ -262,20 +263,19 @@ const createProfileSlice = (set: any, get: any) => ({
           toast.error(
             data.error?.errors?.[0]?.message || data.error?.errors?.[0]?.error,
           )
-          set({ profileIsLoading: false, profile: null })
+          set({ profileIsLoading: false })
         } else {
           toast.error(JSON.stringify(data.error?.errors?.[0]))
-          set({ profileIsLoading: false, profile: null })
+          set({ profileIsLoading: false })
         }
       } else {
         toast.success('Success')
         set({
           profileIsLoading: false,
-          profile: data?.data?.user,
         })
       }
     } catch (error) {
-      set({ profileIsLoading: false, profile: null })
+      set({ profileIsLoading: false })
       toast.error(JSON.stringify(error))
       console.log('[UPLOAD COVER ERROR]', error)
     }
@@ -297,20 +297,19 @@ const createProfileSlice = (set: any, get: any) => ({
           toast.error(
             data.error?.errors?.[0]?.message || data.error?.errors?.[0]?.error,
           )
-          set({ profileIsLoading: false, profile: null })
+          set({ profileIsLoading: false })
         } else {
           toast.error(JSON.stringify(data.error?.errors?.[0]))
-          set({ profileIsLoading: false, profile: null })
+          set({ profileIsLoading: false })
         }
       } else {
         toast.success('Success')
         set({
           profileIsLoading: false,
-          profile: data?.data?.user,
         })
       }
     } catch (error) {
-      set({ profileIsLoading: false, profile: null })
+      set({ profileIsLoading: false })
       toast.error(JSON.stringify(error))
       console.log('[UPLOAD COVER ERROR]', error)
     }

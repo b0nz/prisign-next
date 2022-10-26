@@ -72,7 +72,7 @@ const Profile: NextPage = () => {
                       </span>
                     </button>
                   }
-                  onUpload={(payload) => uploadCover(payload)}
+                  onUpload={uploadCover}
                 />
               </div>
               <div

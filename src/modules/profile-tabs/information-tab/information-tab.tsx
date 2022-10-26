@@ -31,7 +31,7 @@ const InformationTab: FC<InformationTabProps> = ({
   data = null,
   loading = false,
 }) => {
-  const { postInformation } = createStore()
+  const { postInformation, uploadProfile } = createStore()
   const [formIsActive, setFormIsActive] = useState(false)
   const {
     register,
@@ -171,6 +171,7 @@ const InformationTab: FC<InformationTabProps> = ({
                       Upload Media
                     </Button>
                   }
+                  onUpload={uploadProfile}
                 />
                 <p className="sub-heading">PNG, JPG or GIF up to 2MB</p>
               </div>
